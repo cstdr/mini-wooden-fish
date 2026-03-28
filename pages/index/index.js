@@ -24,7 +24,8 @@ Page({
     tapTimestamps: [],
     cpsWindowSize: 10,
     overdriveThreshold: 5,
-    shareImagePath: ''
+    shareImagePath: '',
+    shakeClass: ''
   },
   
   animationIdCounter: 0,
@@ -383,11 +384,42 @@ Page({
   },
   
   triggerShakeAnimation() {
-    this.setData({ isShaking: true });
+    const cps = this.data.cps;
+    const isOverdrive = this.data.isOverdrive;
+    const isCyber = this.data.isCyber;
+    
+    let shakeClass = 'shake-light';
+    let duration = 100;
+    
+    if (isOverdrive) {
+      shakeClass = 'shake-overdrive';
+      duration = 80;
+      wx.vibrateShort({ type: 'heavy' });
+    } else if (cps >= 8) {
+      shakeClass = 'shake-heavy';
+      duration = 200;
+      wx.vibrateShort({ type: 'medium' });
+    } else if (cps >= 4) {
+      shakeClass = 'shake-medium';
+      duration = 150;
+      wx.vibrateShort({ type: 'light' });
+    } else if (cps >= 2) {
+      shakeClass = 'shake-light';
+      duration = 100;
+      wx.vibrateShort({ type: 'light' });
+    } else {
+      shakeClass = 'shake-light';
+      duration = 100;
+      if (isCyber) {
+        wx.vibrateShort({ type: 'light' });
+      }
+    }
+    
+    this.setData({ isShaking: true, shakeClass: shakeClass });
     
     setTimeout(() => {
-      this.setData({ isShaking: false });
-    }, 150);
+      this.setData({ isShaking: false, shakeClass: '' });
+    }, duration);
   },
   
   triggerHitAnimation() {

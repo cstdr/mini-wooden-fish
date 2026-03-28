@@ -525,4 +525,51 @@
               0 0 40rpx rgba(254, 202, 87, 0.3);
 }
 
+.container.shake-light {
+  animation: shakeLight 0.1s ease-in-out;
+}
+
+.container.shake-medium {
+  animation: shakeMedium 0.15s ease-in-out;
+}
+
+.container.shake-heavy {
+  animation: shakeHeavy 0.2s ease-in-out;
+}
+
+.container.shake-overdrive {
+  animation: shakeOverdrive 0.08s ease-in-out infinite;
+}
+
+@keyframes shakeLight {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2rpx); }
+  75% { transform: translateX(2rpx); }
+}
+
+@keyframes shakeMedium {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  20% { transform: translateX(-3rpx) translateY(2rpx); }
+  40% { transform: translateX(3rpx) translateY(-2rpx); }
+  60% { transform: translateX(-2rpx) translateY(-1rpx); }
+  80% { transform: translateX(2rpx) translateY(1rpx); }
+}
+
+@keyframes shakeHeavy {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  10% { transform: translateX(-5rpx) translateY(3rpx); }
+  30% { transform: translateX(5rpx) translateY(-3rpx); }
+  50% { transform: translateX(-4rpx) translateY(-2rpx); }
+  70% { transform: translateX(4rpx) translateY(2rpx); }
+  90% { transform: translateX(-2rpx) translateY(1rpx); }
+}
+
+@keyframes shakeOverdrive {
+  0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
+  20% { transform: translateX(-6rpx) translateY(4rpx) rotate(-1deg); }
+  40% { transform: translateX(6rpx) translateY(-4rpx) rotate(1deg); }
+  60% { transform: translateX(-4rpx) translateY(-3rpx) rotate(-0.5deg); }
+  80% { transform: translateX(4rpx) translateY(3rpx) rotate(0.5deg); }
+}
+
 

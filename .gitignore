@@ -1,4 +1,8 @@
-# 微信小程序
+# 微信小程序配置（包含敏感信息）
+project.config.json
+project.private.config.json
+
+# 微信小程序编译缓存
 .miniprogram/
 *.wxss.map
 *.wxml.map

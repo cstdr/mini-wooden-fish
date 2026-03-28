@@ -72,6 +72,16 @@ Page({
   
   initAudioPool() {
     try {
+      const oldPool = this.data.audioPool;
+      if (oldPool && oldPool.length > 0) {
+        oldPool.forEach(item => {
+          if (item.audio) {
+            item.audio.stop();
+            item.audio.destroy();
+          }
+        });
+      }
+      
       const audioPool = [];
       for (let i = 0; i < this.data.audioPoolSize; i++) {
         const audio = wx.createInnerAudioContext();

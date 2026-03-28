@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="merit-display">
+    <text class="merit-label">功德累计</text>
+    <text class="merit-value">{{merit}}</text>
+  </view>
+  
+  <view class="wooden-fish-area">
+    <view class="animation-layer" style="height: {{animationLayerHeight}}px;">
+      <block wx:for="{{animations}}" wx:key="id">
+        <view 
+          class="merit-add-animation" 
+          style="left: {{item.x}}px; animation: floatUp {{item.duration}}s ease-out forwards;"
+          data-id="{{item.id}}"
+        >
+          +{{item.value}}
+        </view>
+      </block>
+    </view>
+    
+    <view class="wooden-fish-container">
+      <view class="wooden-fish-wrapper {{isShaking ? 'shake' : ''}}" bindtap="onWoodenFishTap">
+        <image 
+          class="wooden-fish-image" 
+          src="{{woodenFishImage}}" 
+          mode="aspectFit"
+        ></image>
+      </view>
+      
+      <view class="wooden-stick-wrapper {{isHitting ? 'hit' : ''}}" bindtap="onWoodenFishTap">
+        <image 
+          class="wooden-stick-image" 
+          src="{{woodenStickImage}}" 
+          mode="aspectFit"
+        ></image>
+      </view>
+    </view>
+  </view>
+  
+  <view class="settings-button" bindtap="goToSettings">
+    <text class="settings-icon">⚙</text>
+    <text class="settings-text">设置</text>
+  </view>
+</view>

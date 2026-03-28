@@ -1,0 +1,34 @@
+# 微信小程序
+.miniprogram/
+*.wxss.map
+*.wxml.map
+*.js.map
+
+# 编译产物
+node_modules/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# 微信开发者工具
+/wechatdevtools/
+
+# 临时文件
+*.tmp
+*.temp
+*.log
+
+# 其他
+*.bak
+*~

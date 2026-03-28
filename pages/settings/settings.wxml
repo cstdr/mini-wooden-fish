@@ -1,0 +1,73 @@
+<view class="settings-container">
+  <view class="settings-section">
+    <view class="section-title">音效设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-label">音效开关</view>
+      <switch 
+        checked="{{settings.soundEnabled}}" 
+        bindchange="onSoundChange"
+        color="#d4a574"
+      />
+    </view>
+    
+    <view class="setting-item">
+      <view class="setting-label">震动反馈</view>
+      <switch 
+        checked="{{settings.vibrationEnabled}}" 
+        bindchange="onVibrationChange"
+        color="#d4a574"
+      />
+    </view>
+  </view>
+  
+  <view class="settings-section">
+    <view class="section-title">显示设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-label">显示+1动画</view>
+      <switch 
+        checked="{{settings.showAnimation}}" 
+        bindchange="onAnimationChange"
+        color="#d4a574"
+      />
+    </view>
+  </view>
+  
+  <view class="settings-section">
+    <view class="section-title">功德设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-label">每次功德值</view>
+      <view class="increment-picker">
+        <view 
+          class="increment-option {{settings.incrementValue === 1 ? 'active' : ''}}"
+          bindtap="onIncrementChange"
+          data-value="1"
+        >+1</view>
+        <view 
+          class="increment-option {{settings.incrementValue === 3 ? 'active' : ''}}"
+          bindtap="onIncrementChange"
+          data-value="3"
+        >+3</view>
+        <view 
+          class="increment-option {{settings.incrementValue === 9 ? 'active' : ''}}"
+          bindtap="onIncrementChange"
+          data-value="9"
+        >+9</view>
+      </view>
+    </view>
+  </view>
+  
+  <view class="settings-section danger-section">
+    <view class="setting-item danger-item" bindtap="onResetMerit">
+      <view class="setting-label danger-label">清零功德</view>
+      <text class="danger-hint">⚠</text>
+    </view>
+  </view>
+  
+  <view class="app-info">
+    <text class="app-name">木鱼功德机</text>
+    <text class="app-version">v1.0.0</text>
+  </view>
+</view>

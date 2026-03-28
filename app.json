@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "navigationBarTitleText": "木鱼功德机",
+    "navigationBarBackgroundColor": "#f8f6f1",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f8f6f1",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

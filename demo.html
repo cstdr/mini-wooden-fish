@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>木鱼功德机 - 演示版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(180deg, #f8f6f1 0%, #ebe8e3 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .merit-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+        }
+        
+        .merit-label {
+            font-size: 14px;
+            color: #8b8b8b;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        
+        .merit-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: #5a5a5a;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .wooden-fish-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+        }
+        
+        .animation-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            pointer-events: none;
+            overflow: visible;
+        }
+        
+        .merit-add-animation {
+            position: absolute;
+            font-size: 32px;
+            font-weight: bold;
+            color: #d4a574;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+            pointer-events: none;
+            animation: floatUp 1.2s ease-out forwards;
+            user-select: none;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(-15px) scale(1.1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(0.8);
+            }
+        }
+        
+        .wooden-fish-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+            user-select: none;
+        }
+        
+        .wooden-fish-wrapper:active {
+            transform: scale(0.95);
+        }
+        
+        .wooden-fish-wrapper.shake {
+            animation: shake 0.15s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                transform: scale(0.95) rotate(-3deg);
+            }
+            50% {
+                transform: scale(0.98) rotate(2deg);
+            }
+            75% {
+                transform: scale(0.96) rotate(-1deg);
+            }
+        }
+        
+        .wooden-fish-image {
+            width: 200px;
+            height: 200px;
+            max-width: 60vw;
+            max-height: 60vw;
+            object-fit: contain;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        .settings-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            margin-bottom: 30px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            cursor: pointer;
+        }
+        
+        .settings-button:active {
+            opacity: 0.3;
+        }
+        
+        .settings-icon {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+        
+        .settings-text {
+            font-size: 16px;
+            color: #8b8b8b;
+        }
+        
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .settings-panel.show {
+            display: flex;
+        }
+        
+        .settings-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .settings-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .settings-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 12px;
+            color: #8b8b8b;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .setting-label {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .setting-label.danger {
+            color: #e74c3c;
+        }
+        
+        .increment-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .increment-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #666;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .increment-btn.active {
+            background: #d4a574;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .close-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .close-btn:active {
+            background: #e0e0e0;
+        }
+        
+        .reset-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #fff5f5;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #e74c3c;
+            cursor: pointer;
+        }
+        
+        .reset-btn:active {
+            background: #ffe0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="merit-display">
+            <div class="merit-label">功德累计</div>
+            <div class="merit-value" id="meritValue">0</div>
+        </div>
+        
+        <div class="wooden-fish-area">
+            <div class="animation-layer" id="animationLayer"></div>
+            
+            <div class="wooden-fish-wrapper" id="woodenFish">
+                <img 
+                    class="wooden-fish-image" 
+                    src="images/wooden-fish.svg"
+                    alt="木鱼"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%2770%27 font-size=%2770%27%3E%F0%9F%8F%BF%3C/text%3E%3C/svg%3E'"
+                />
+            </div>
+        </div>
+        
+        <div class="settings-button" id="settingsBtn">
+            <span class="settings-icon">⚙</span>
+            <span class="settings-text">设置</span>
+        </div>
+    </div>
+    
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-content">
+            <div class="settings-title">⚙ 设置</div>
+            
+            <div class="settings-section">
+                <div class="section-title">音效设置</div>
+                <div class="setting-row">
+                    <span class="setting-label">音效开关</span>
+                    <input type="checkbox" id="soundToggle" checked />
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">震动反馈</span>
+                    <input type="checkbox" id="vibrationToggle" checked />
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <div class="section-title">显示设置</div>
+                <div class="setting-row">
+                    <span class="setting-label">显示+1动画</span>
+                    <input type="checkbox" id="animationToggle" checked />
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <div class="section-title">功德设置</div>
+                <div class="setting-row">
+                    <span class="setting-label">每次功德值</span>
+                    <div class="increment-buttons">
+                        <button class="increment-btn active" data-value="1">+1</button>
+                        <button class="increment-btn" data-value="3">+3</button>
+                        <button class="increment-btn" data-value="9">+9</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="reset-btn" id="resetBtn">⚠ 清零功德</button>
+            <button class="close-btn" id="closeBtn">关闭</button>
+        </div>
+    </div>
+    
+    <script>
+        const meritValue = document.getElementById('meritValue');
+        const woodenFish = document.getElementById('woodenFish');
+        const animationLayer = document.getElementById('animationLayer');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        
+        const soundToggle = document.getElementById('soundToggle');
+        const vibrationToggle = document.getElementById('vibrationToggle');
+        const animationToggle = document.getElementById('animationToggle');
+        const incrementBtns = document.querySelectorAll('.increment-btn');
+        
+        let merit = parseInt(localStorage.getItem('merit')) || 0;
+        let settings = JSON.parse(localStorage.getItem('settings')) || {
+            soundEnabled: true,
+            vibrationEnabled: true,
+            showAnimation: true,
+            incrementValue: 1
+        };
+        
+        let animationIdCounter = 0;
+        const maxAnimations = 10;
+        
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        meritValue.textContent = merit;
+        
+        function loadSettings() {
+            soundToggle.checked = settings.soundEnabled;
+            vibrationToggle.checked = settings.vibrationEnabled;
+            animationToggle.checked = settings.showAnimation;
+            
+            incrementBtns.forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.value) === settings.incrementValue);
+            });
+        }
+        
+        loadSettings();
+        
+        function playKnockSound() {
+            if (!settings.soundEnabled) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(220, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.15);
+        }
+        
+        function triggerVibration() {
+            if (!settings.vibrationEnabled) return;
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+        
+        function triggerShake() {
+            woodenFish.classList.add('shake');
+            setTimeout(() => {
+                woodenFish.classList.remove('shake');
+            }, 150);
+        }
+        
+        function addMeritAnimation(value) {
+            if (!settings.showAnimation) return;
+            
+            const animations = animationLayer.querySelectorAll('.merit-add-animation');
+            if (animations.length >= maxAnimations) {
+                animations[0].remove();
+            }
+            
+            const id = ++animationIdCounter;
+            const randomX = Math.random() * 150 - 75;
+            const duration = 1.0 + Math.random() * 0.4;
+            
+            const animDiv = document.createElement('div');
+            animDiv.className = 'merit-add-animation';
+            animDiv.textContent = '+' + value;
+            animDiv.style.left = (window.innerWidth / 2 + randomX) + 'px';
+            animDiv.style.animationDuration = duration + 's';
+            
+            animationLayer.appendChild(animDiv);
+            
+            setTimeout(() => {
+                if (animDiv.parentNode) {
+                    animDiv.remove();
+                }
+            }, duration * 1000);
+        }
+        
+        function updateMerit(increment) {
+            merit += increment;
+            meritValue.textContent = merit;
+            localStorage.setItem('merit', merit);
+        }
+        
+        function onTap() {
+            updateMerit(settings.incrementValue);
+            addMeritAnimation(settings.incrementValue);
+            playKnockSound();
+            triggerVibration();
+            triggerShake();
+        }
+        
+        woodenFish.addEventListener('click', onTap);
+        woodenFish.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            onTap();
+        });
+        
+        settingsBtn.addEventListener('click', () => {
+            settingsPanel.classList.add('show');
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            settingsPanel.classList.remove('show');
+        });
+        
+        settingsPanel.addEventListener('click', (e) => {
+            if (e.target === settingsPanel) {
+                settingsPanel.classList.remove('show');
+            }
+        });
+        
+        resetBtn.addEventListener('click', () => {
+            if (confirm('确定要清零所有功德吗？此操作不可恢复。')) {
+                merit = 0;
+                meritValue.textContent = merit;
+                localStorage.setItem('merit', merit);
+                settingsPanel.classList.remove('show');
+            }
+        });
+        
+        soundToggle.addEventListener('change', (e) => {
+            settings.soundEnabled = e.target.checked;
+            localStorage.setItem('settings', JSON.stringify(settings));
+        });
+        
+        vibrationToggle.addEventListener('change', (e) => {
+            settings.vibrationEnabled = e.target.checked;
+            localStorage.setItem('settings', JSON.stringify(settings));
+        });
+        
+        animationToggle.addEventListener('change', (e) => {
+            settings.showAnimation = e.target.checked;
+            localStorage.setItem('settings', JSON.stringify(settings));
+        });
+        
+        incrementBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                incrementBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                settings.incrementValue = parseInt(btn.dataset.value);
+                localStorage.setItem('settings', JSON.stringify(settings));
+            });
+        });
+        
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        });
+    </script>
+</body>
+</html>

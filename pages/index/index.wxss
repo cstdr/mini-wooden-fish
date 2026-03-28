@@ -1,0 +1,174 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+
+.merit-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60rpx;
+}
+
+.merit-label {
+  font-size: 28rpx;
+  color: #8b8b8b;
+  letter-spacing: 4rpx;
+  margin-bottom: 10rpx;
+}
+
+.merit-value {
+  font-size: 72rpx;
+  font-weight: bold;
+  color: #5a5a5a;
+  letter-spacing: 2rpx;
+  text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+.wooden-fish-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.animation-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.wooden-fish-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wooden-stick-wrapper {
+  position: absolute;
+  top: 58rpx;
+  right: 58rpx;
+  width: 150rpx;
+  height: 150rpx;
+  transform: rotate(45deg);
+  transform-origin: bottom right;
+  transition: transform 0.05s ease-out;
+  z-index: 10;
+}
+
+.wooden-stick-wrapper.hit {
+  transform: rotate(15deg) translateX(-20rpx) translateY(20rpx);
+}
+
+.wooden-stick-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(2rpx 2rpx 4rpx rgba(0, 0, 0, 0.2));
+}
+
+.merit-add-animation {
+  position: absolute;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #d4a574;
+  text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  animation: floatUp 1.2s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-20rpx) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-300rpx) scale(0.8);
+  }
+}
+
+.wooden-fish-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+  cursor: pointer;
+}
+
+.wooden-fish-wrapper:active {
+  transform: scale(0.95);
+}
+
+.wooden-fish-wrapper, .wooden-stick-wrapper {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+.wooden-fish-wrapper.shake {
+  animation: shake 0.15s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(0.95) rotate(-3deg);
+  }
+  50% {
+    transform: scale(0.98) rotate(2deg);
+  }
+  75% {
+    transform: scale(0.96) rotate(-1deg);
+  }
+}
+
+.wooden-fish-image {
+  width: 400rpx;
+  height: 400rpx;
+  max-width: 70vw;
+  max-height: 70vh;
+  object-fit: contain;
+  filter: drop-shadow(4rpx 4rpx 8rpx rgba(0, 0, 0, 0.15));
+}
+
+.settings-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 40rpx;
+  margin-bottom: 40rpx;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.settings-button:active {
+  opacity: 0.3;
+}
+
+.settings-icon {
+  font-size: 36rpx;
+  margin-right: 10rpx;
+}
+
+.settings-text {
+  font-size: 28rpx;
+  color: #8b8b8b;
+}

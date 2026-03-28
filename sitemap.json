@@ -1,0 +1,7 @@
+{
+  "desc": "木鱼功德机小程序",
+  "rules": [{
+    "action": "allow",
+    "page": "*"
+  }]
+}

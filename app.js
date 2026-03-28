@@ -7,12 +7,15 @@ App({
       incrementValue: 1,
       showAnimation: true,
       selectedSound: 'default'
-    }
+    },
+    selectedKeyword: '暴富',
+    selectedKeywordIndex: 0
   },
   
   onLaunch() {
     this.loadSettings();
     this.loadMerit();
+    this.loadKeywordSelection();
   },
   
   loadSettings() {
@@ -61,6 +64,31 @@ App({
       this.globalData.merit = 0;
     } catch (e) {
       console.error('重置功德失败:', e);
+    }
+  },
+  
+  loadKeywordSelection() {
+    try {
+      const selectedKeyword = wx.getStorageSync('woodenFishKeyword');
+      if (selectedKeyword) {
+        this.globalData.selectedKeyword = selectedKeyword.keyword;
+        this.globalData.selectedKeywordIndex = selectedKeyword.index;
+      }
+    } catch (e) {
+      console.error('加载词条选择失败:', e);
+    }
+  },
+  
+  saveKeywordSelection(keyword, index) {
+    try {
+      wx.setStorageSync('woodenFishKeyword', {
+        keyword: keyword,
+        index: index
+      });
+      this.globalData.selectedKeyword = keyword;
+      this.globalData.selectedKeywordIndex = index;
+    } catch (e) {
+      console.error('保存词条选择失败:', e);
     }
   }
 })

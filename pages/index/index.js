@@ -22,13 +22,16 @@ Page({
   maxAnimations: 10,
   
   onLoad() {
+    this.initAudioPool();
     this.loadMerit();
+    this.loadKeyword();
     this.calculateAnimationLayerHeight();
   },
   
   onShow() {
     this.loadMerit();
     this.loadSettings();
+    this.loadKeyword();
     if (!this.data.audioInitialized) {
       this.initAudioPool();
     }
@@ -86,6 +89,17 @@ Page({
     });
   },
   
+  loadKeyword() {
+    const keyword = app.globalData.selectedKeyword;
+    const index = app.globalData.selectedKeywordIndex;
+    if (keyword && index !== undefined) {
+      this.setData({
+        selectedKeyword: keyword,
+        selectedKeywordIndex: index
+      });
+    }
+  },
+  
   onWoodenFishTap(e) {
     const settings = app.globalData.settings;
     const incrementValue = settings.incrementValue;
@@ -115,6 +129,7 @@ Page({
       selectedKeywordIndex: index,
       selectedKeyword: keyword
     });
+    app.saveKeywordSelection(keyword, index);
   },
   
   updateMerit(increment) {

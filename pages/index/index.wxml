@@ -1,75 +1,72 @@
 <view class="container {{isCyber ? (isOverdrive ? 'overdrive' : 'cyber') : 'classic'}}">
-  <view class="merit-display">
-    <text class="merit-label {{isCyber ? 'cyber-label' : ''}}">{{isCyber ? '赛博意念超度' : '功德累计'}}</text>
-    <text class="merit-value {{isCyber ? 'cyber-value' : ''}}">{{merit}}</text>
-    
-    <view class="cps-display" wx:if="{{isCyber}}">
-      <text class="cps-value">{{cps}} CPS</text>
-      <text class="overdrive-badge" wx:if="{{isOverdrive}}">🔥 发疯模式</text>
-    </view>
-  </view>
+  <image class="bg-image" src="{{isCyber ? '/images/bg-cyber.png' : '/images/bg-classic.png'}}" mode="aspectFill"></image>
+  <view class="bg-overlay"></view>
   
-  <view class="wooden-fish-area">
-    <view class="animation-layer" style="height: {{animationLayerHeight}}px;">
-      <block wx:for="{{animations}}" wx:key="id">
-        <view 
-          class="merit-add-animation {{item.isOverdrive ? 'overdrive-text' : ''}} {{isCyber ? 'cyber-text' : ''}}" 
-          style="left: {{item.x}}px; font-size: {{item.fontSize || 48}}rpx; transform: rotate({{item.rotation || 0}}deg);"
-        >
-          {{item.keyword}}+{{item.value}}
-        </view>
-      </block>
-    </view>
-    
-    <view class="wooden-fish-container">
-      <view class="wooden-fish-wrapper {{isShaking ? 'shake' : ''}} {{isCyber && isOverdrive ? 'overdrive-fish' : ''}}" bindtap="onWoodenFishTap">
-        <image 
-          class="wooden-fish-image" 
-          src="{{woodenFishImage}}" 
-          mode="aspectFit"
-        ></image>
-      </view>
+  <view class="content-wrapper">
+    <view class="merit-display">
+      <text class="merit-label {{isCyber ? 'cyber-label' : ''}}">{{isCyber ? '赛博意念超度' : '功德累计'}}</text>
+      <text class="merit-value {{isCyber ? 'cyber-value' : ''}}">{{merit}}</text>
       
-      <view class="wooden-stick-wrapper {{isHitting ? 'hit' : ''}} {{isCyber && isOverdrive ? 'overdrive-stick' : ''}}" bindtap="onWoodenFishTap">
-        <image 
-          class="wooden-stick-image" 
-          src="{{woodenStickImage}}" 
-          mode="aspectFit"
-        ></image>
+      <view class="cps-display" wx:if="{{isCyber}}">
+        <text class="cps-value">{{cps}} CPS</text>
+        <text class="overdrive-badge" wx:if="{{isOverdrive}}">🔥 发疯模式</text>
       </view>
     </view>
     
-    <view class="warning-overlay" wx:if="{{isCyber && isOverdrive}}">
-      <text class="warning-text">⚠️ 系统过载警告 ⚠️</text>
-    </view>
-  </view>
-  
-  <view class="keyword-selector">
-    <text class="selector-label {{isCyber ? 'cyber-label' : ''}}" wx:if="{{isCyber}}">欲望外挂加载</text>
-    <scroll-view class="keyword-scroll" scroll-x enable-flex>
-      <view class="keyword-list">
-        <block wx:for="{{keywords}}" wx:key="index">
+    <view class="wooden-fish-area">
+      <view class="animation-layer" style="height: {{animationLayerHeight}}px;">
+        <block wx:for="{{animations}}" wx:key="id">
           <view 
-            class="keyword-item {{isCyber ? 'cyber-keyword' : ''}} {{selectedKeywordIndex === index ? 'active' : ''}}" 
-            data-index="{{index}}"
-            bindtap="onKeywordSelect"
+            class="merit-add-animation {{item.isOverdrive ? 'overdrive-text' : ''}} {{isCyber ? 'cyber-text' : ''}}" 
+            style="left: {{item.x}}%; font-size: {{item.fontSize || 48}}rpx; transform: translateX(-50%) rotate({{item.rotation || 0}}deg);"
           >
-            {{item}}
+            {{item.keyword}}+{{item.value}}
           </view>
         </block>
       </view>
-    </scroll-view>
-  </view>
-  
-  <view class="action-buttons">
-    <view class="share-button {{isCyber ? 'cyber-share' : ''}}" bindtap="onShareTap">
-      <text class="share-icon">🖨️</text>
-      <text class="share-text">生成赛博收据</text>
+      
+      <view class="wooden-fish-container">
+        <view class="wooden-stick-wrapper {{isHitting ? 'hit' : ''}} {{isCyber && isOverdrive ? 'overdrive-stick' : ''}}" bindtap="onWoodenFishTap">
+          <image class="wooden-stick-image" src="{{woodenStickImage}}" mode="aspectFit"></image>
+        </view>
+        
+        <view class="wooden-fish-wrapper {{isShaking ? 'shake' : ''}} {{isCyber && isOverdrive ? 'overdrive-fish' : ''}}" bindtap="onWoodenFishTap">
+          <image class="wooden-fish-image" src="{{woodenFishImage}}" mode="aspectFit"></image>
+        </view>
+      </view>
+      
+      <view class="warning-overlay" wx:if="{{isCyber && isOverdrive}}">
+        <text class="warning-text">⚠️ 系统过载警告 ⚠️</text>
+      </view>
     </view>
     
-    <view class="settings-button" bindtap="goToSettings">
-      <text class="settings-icon">⚙️</text>
-      <text class="settings-text">篡改天机</text>
+    <view class="keyword-selector">
+      <text class="selector-label {{isCyber ? 'cyber-label' : ''}}" wx:if="{{isCyber}}">欲望外挂加载</text>
+      <scroll-view class="keyword-scroll" scroll-x enable-flex>
+        <view class="keyword-list">
+          <block wx:for="{{keywords}}" wx:key="index">
+            <view 
+              class="keyword-item {{isCyber ? 'cyber-keyword' : ''}} {{selectedKeywordIndex === index ? 'active' : ''}}" 
+              data-index="{{index}}"
+              bindtap="onKeywordSelect"
+            >
+              {{item}}
+            </view>
+          </block>
+        </view>
+      </scroll-view>
+    </view>
+    
+    <view class="action-buttons">
+      <view class="share-button {{isCyber ? 'cyber-share' : ''}}" bindtap="onShareTap">
+        <text class="share-icon">🖨️</text>
+        <text class="share-text">生成赛博收据</text>
+      </view>
+      
+      <view class="settings-button" bindtap="goToSettings">
+        <text class="settings-icon">⚙️</text>
+        <text class="settings-text">篡改天机</text>
+      </view>
     </view>
   </view>
   

@@ -266,7 +266,7 @@ Page({
     }
     
     const id = ++this.animationIdCounter;
-    const randomX = Math.random() * 200 - 100;
+    const randomX = Math.random() * 60 - 30;
     const duration = 1.0 + Math.random() * 0.4;
     const keyword = this.data.selectedKeyword;
     
@@ -284,7 +284,7 @@ Page({
         id,
         value,
         keyword,
-        x: randomX + 147,
+        x: 50 + randomX,
         duration,
         isOverdrive: true,
         fontSize: fontSize,
@@ -297,7 +297,7 @@ Page({
         id,
         value,
         keyword,
-        x: randomX + 147,
+        x: 50 + randomX,
         duration
       };
     }

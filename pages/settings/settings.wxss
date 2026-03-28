@@ -38,6 +38,48 @@
   font-weight: 500;
 }
 
+.theme-picker {
+  display: flex;
+  gap: 20rpx;
+}
+
+.theme-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  border-radius: 16rpx;
+  background: #f5f5f5;
+  transition: all 0.3s;
+  min-width: 120rpx;
+}
+
+.theme-option:active {
+  opacity: 0.7;
+  transform: scale(0.95);
+}
+
+.theme-option.active {
+  background: linear-gradient(135deg, #d4a574 0%, #c49464 100%);
+  box-shadow: 0 4rpx 12rpx rgba(212, 165, 116, 0.4);
+}
+
+.theme-icon {
+  font-size: 40rpx;
+  margin-bottom: 8rpx;
+}
+
+.theme-name {
+  font-size: 24rpx;
+  color: #666;
+  font-weight: 500;
+}
+
+.theme-option.active .theme-name {
+  color: white;
+  font-weight: bold;
+}
+
 .increment-picker {
   display: flex;
   gap: 20rpx;

@@ -8,16 +8,39 @@ Page({
       incrementValue: 1,
       showAnimation: true,
       selectedSound: 'default'
-    }
+    },
+    theme: 'classic'
   },
   
   onLoad() {
     this.loadSettings();
+    this.loadTheme();
+  },
+  
+  onShow() {
+    this.loadTheme();
   },
   
   loadSettings() {
     const settings = app.globalData.settings;
     this.setData({ settings });
+  },
+  
+  loadTheme() {
+    const theme = app.globalData.theme || 'classic';
+    this.setData({ theme });
+  },
+  
+  onThemeChange(e) {
+    const theme = e.currentTarget.dataset.theme;
+    this.setData({ theme });
+    app.saveTheme(theme);
+    
+    wx.showToast({
+      title: theme === 'cyber' ? '已切换到赛博模式' : '已切换到经典模式',
+      icon: 'success',
+      duration: 1500
+    });
   },
   
   onSoundChange(e) {

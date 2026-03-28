@@ -9,13 +9,16 @@ App({
       selectedSound: 'default'
     },
     selectedKeyword: '暴富',
-    selectedKeywordIndex: 0
+    selectedKeywordIndex: 0,
+    theme: 'cyber',
+    hasSelectedTheme: false
   },
   
   onLaunch() {
     this.loadSettings();
     this.loadMerit();
     this.loadKeywordSelection();
+    this.loadTheme();
   },
   
   loadSettings() {
@@ -89,6 +92,34 @@ App({
       this.globalData.selectedKeywordIndex = index;
     } catch (e) {
       console.error('保存词条选择失败:', e);
+    }
+  },
+  
+  loadTheme() {
+    try {
+      const themeData = wx.getStorageSync('woodenFishTheme');
+      if (themeData && themeData.theme) {
+        this.globalData.theme = themeData.theme;
+        this.globalData.hasSelectedTheme = themeData.hasSelectedTheme || false;
+      } else {
+        this.globalData.theme = 'cyber';
+        this.globalData.hasSelectedTheme = false;
+      }
+    } catch (e) {
+      console.error('加载主题失败:', e);
+    }
+  },
+  
+  saveTheme(theme) {
+    try {
+      wx.setStorageSync('woodenFishTheme', {
+        theme: theme,
+        hasSelectedTheme: true
+      });
+      this.globalData.theme = theme;
+      this.globalData.hasSelectedTheme = true;
+    } catch (e) {
+      console.error('保存主题失败:', e);
     }
   }
 })

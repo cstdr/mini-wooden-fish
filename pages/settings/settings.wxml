@@ -1,5 +1,31 @@
 <view class="settings-container">
   <view class="settings-section">
+    <view class="section-title">外观设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-label">外观模式</view>
+      <view class="theme-picker">
+        <view 
+          class="theme-option {{theme === 'classic' ? 'active' : ''}}"
+          bindtap="onThemeChange"
+          data-theme="classic"
+        >
+          <text class="theme-icon">🎋</text>
+          <text class="theme-name">经典</text>
+        </view>
+        <view 
+          class="theme-option {{theme === 'cyber' ? 'active' : ''}}"
+          bindtap="onThemeChange"
+          data-theme="cyber"
+        >
+          <text class="theme-icon">⚡</text>
+          <text class="theme-name">赛博</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <view class="settings-section">
     <view class="section-title">音效设置</view>
     
     <view class="setting-item">

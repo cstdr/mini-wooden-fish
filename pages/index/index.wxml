@@ -72,6 +72,8 @@
       <text class="settings-text">篡改天机</text>
     </view>
   </view>
+  
+  <button class="hidden-share-btn" open-type="share" id="shareBtn"></button>
 </view>
 
 <canvas canvas-id="shareCanvas" class="share-canvas" style="width: 300px; height: 450px;"></canvas>

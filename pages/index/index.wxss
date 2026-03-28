@@ -290,6 +290,17 @@
   left: -9999px;
 }
 
+.hidden-share-btn {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  border: none;
+  background: transparent;
+}
+
 .container.classic {
   background: linear-gradient(180deg, #f8f6f1 0%, #fff 100%);
 }

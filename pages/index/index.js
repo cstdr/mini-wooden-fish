@@ -23,7 +23,8 @@ Page({
     isOverdrive: false,
     tapTimestamps: [],
     cpsWindowSize: 10,
-    overdriveThreshold: 5
+    overdriveThreshold: 5,
+    shareImagePath: ''
   },
   
   animationIdCounter: 0,
@@ -59,28 +60,6 @@ Page({
   
   onResize() {
     this.calculateAnimationLayerHeight();
-  },
-  
-  onShareAppMessage() {
-    const merit = this.data.merit;
-    const keyword = this.data.selectedKeyword;
-    
-    return {
-      title: '🎋 木鱼功德机 - 今日已积累' + merit + '功德',
-      path: '/pages/index/index',
-      imageUrl: ''
-    };
-  },
-  
-  onShareTimeline() {
-    const merit = this.data.merit;
-    const keyword = this.data.selectedKeyword;
-    
-    return {
-      title: '🎋 木鱼功德机 - 今日已积累' + merit + '功德，快来一起解压！',
-      query: '',
-      imageUrl: ''
-    };
   },
   
   calculateAnimationLayerHeight() {
@@ -415,28 +394,29 @@ Page({
     });
   },
   
-  wrapText(ctx, text, maxWidth) {
-    const words = text.split('');
-    let line = '';
-    let lines = [];
+  onShareTap() {
+    wx.showLoading({ title: '正在生成收据...' });
     
-    for (let i = 0; i < words.length; i++) {
-      const testLine = line + words[i];
-      const metrics = ctx.measureText(testLine);
+    this.generateShareImage((imagePath) => {
+      wx.hideLoading();
       
-      if (metrics.width > maxWidth && i > 0) {
-        lines.push(line);
-        line = words[i];
+      if (imagePath) {
+        this.setData({ shareImagePath: imagePath }, () => {
+          wx.showShareMenu({
+            withShareTicket: true,
+            menus: ['shareAppMessage', 'shareTimeline']
+          });
+          
+          wx.showToast({
+            title: '请点击右上角分享',
+            icon: 'none',
+            duration: 2000
+          });
+        });
       } else {
-        line = testLine;
+        wx.showToast({ title: '生成失败', icon: 'none' });
       }
-    }
-    
-    if (line) {
-      lines.push(line);
-    }
-    
-    return lines;
+    });
   },
   
   getShareText(keyword, tapCount) {
@@ -484,202 +464,163 @@ Page({
     return options[randomIndex];
   },
   
-  onShareTap() {
-    wx.showLoading({ title: '正在生成收据...' });
+  wrapText(ctx, text, maxWidth) {
+    const words = text.split('');
+    let line = '';
+    let lines = [];
     
-    try {
-      const tapCount = this.data.merit;
-      const currentWord = this.data.selectedKeyword;
-      const shareText = this.getShareText(currentWord, tapCount);
+    for (let i = 0; i < words.length; i++) {
+      const testLine = line + words[i];
+      const metrics = ctx.measureText(testLine);
       
-      const now = new Date();
-      const dateStr = now.getFullYear() + '-' + 
-        String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-        String(now.getDate()).padStart(2, '0');
-      const timeStr = String(now.getHours()).padStart(2, '0') + ':' + 
-        String(now.getMinutes()).padStart(2, '0') + ':' + 
-        String(now.getSeconds()).padStart(2, '0');
-      
-      const context = wx.createCanvasContext('shareCanvas');
-      
-      const canvasWidth = 300;
-      const canvasHeight = 450;
-      
-      context.setFillStyle('#FFFFFF');
-      context.fillRect(0, 0, canvasWidth, canvasHeight);
-      
-      context.setStrokeStyle('#CCCCCC');
-      context.setLineWidth(1);
-      context.setLineDash([5, 3]);
-      context.beginPath();
-      context.moveTo(25, 40);
-      context.lineTo(canvasWidth - 25, 40);
-      context.stroke();
-      
-      context.font = 'bold 18px Courier New';
-      context.setFillStyle('#333333');
-      context.setTextAlign('center');
-      context.fillText('--- 赛博意念超度凭证 ---', canvasWidth / 2, 70);
-      
-      context.beginPath();
-      context.moveTo(25, 90);
-      context.lineTo(canvasWidth - 25, 90);
-      context.stroke();
-      
-      context.font = '12px Courier New';
-      context.setFillStyle('#666666');
-      context.setTextAlign('left');
-      context.fillText('案发时间：' + dateStr, 40, 120);
-      context.fillText('案发时刻：' + timeStr, 40, 145);
-      
-      context.font = '12px Courier New';
-      context.setFillStyle('#666666');
-      context.setTextAlign('left');
-      
-      const lines = this.wrapText(context, shareText, 220);
-      let y = 190;
-      lines.forEach((line, index) => {
-        context.fillText(line, 40, y + index * 18);
-      });
-      
-      context.font = '12px Courier New';
-      context.setFillStyle('#888888');
-      context.fillText('意念强度：████████ 100%', 40, y + lines.length * 18 + 20);
-      context.fillText('灵魂净化度：████████ 100%', 40, y + lines.length * 18 + 40);
-      
-      context.setStrokeStyle('#FF4444');
-      context.setLineWidth(2);
-      context.setLineDash([]);
-      
-      context.save();
-      context.translate(canvasWidth - 75, canvasHeight - 90);
-      context.rotate(-15 * Math.PI / 180);
-      
-      context.beginPath();
-      context.arc(0, 0, 35, 0, 2 * Math.PI);
-      context.stroke();
-      
-      context.beginPath();
-      context.arc(0, 0, 30, 0, 2 * Math.PI);
-      context.stroke();
-      
-      context.font = 'bold 10px Courier New';
-      context.setFillStyle('#FF4444');
-      context.setTextAlign('center');
-      context.setTextBaseline('middle');
-      context.fillText('查收', 0, -5);
-      context.fillText('成功', 0, 7);
-      context.restore();
-      
-      context.setStrokeStyle('#CCCCCC');
-      context.setLineWidth(1);
-      context.setLineDash([5, 3]);
-      context.beginPath();
-      context.moveTo(25, canvasHeight - 50);
-      context.lineTo(canvasWidth - 25, canvasHeight - 50);
-      context.stroke();
-      
-      context.font = '12px Courier New';
-      context.setFillStyle('#888888');
-      context.setTextAlign('center');
-      context.fillText('--- 脑电波传输完毕 ---', canvasWidth / 2, canvasHeight - 25);
-      
-      context.font = '9px Courier New';
-      context.setFillStyle('#AAAAAA');
-      context.fillText('赛博木鱼 v1.0 | 唯物主义祈福工具', canvasWidth / 2, canvasHeight - 12);
-      
-      context.draw();
-       
-      setTimeout(() => {
-        wx.canvasToTempFilePath({
-          canvasId: 'shareCanvas',
-          success: (res) => {
-            wx.hideLoading();
-            this.showSharePreview(res.tempFilePath);
-          },
-          fail: (err) => {
-            wx.hideLoading();
-            console.error('生成图片失败:', err);
-            wx.showToast({ title: '生成失败', icon: 'none' });
-          }
-        });
-      }, 300);
-    } catch (err) {
-      wx.hideLoading();
-      console.error('分享出错:', err);
-      wx.showToast({ title: '分享出错', icon: 'none' });
+      if (metrics.width > maxWidth && i > 0) {
+        lines.push(line);
+        line = words[i];
+      } else {
+        line = testLine;
+      }
     }
+    
+    if (line) {
+      lines.push(line);
+    }
+    
+    return lines;
   },
   
-  showSharePreview(imagePath) {
-    if (wx.showShareImageMenu) {
-      wx.showShareImageMenu({
-        imageUrl: imagePath,
-        success: () => {
-          wx.showToast({ title: '分享成功', icon: 'success' });
+  generateShareImage(callback) {
+    const tapCount = this.data.merit;
+    const currentWord = this.data.selectedKeyword;
+    const shareText = this.getShareText(currentWord, tapCount);
+    
+    const now = new Date();
+    const dateStr = now.getFullYear() + '-' + 
+      String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+      String(now.getDate()).padStart(2, '0');
+    const timeStr = String(now.getHours()).padStart(2, '0') + ':' + 
+      String(now.getMinutes()).padStart(2, '0') + ':' + 
+      String(now.getSeconds()).padStart(2, '0');
+    
+    const context = wx.createCanvasContext('shareCanvas');
+    
+    const canvasWidth = 300;
+    const canvasHeight = 450;
+    
+    context.setFillStyle('#FFFFFF');
+    context.fillRect(0, 0, canvasWidth, canvasHeight);
+    
+    context.setStrokeStyle('#CCCCCC');
+    context.setLineWidth(1);
+    context.setLineDash([5, 3]);
+    context.beginPath();
+    context.moveTo(25, 40);
+    context.lineTo(canvasWidth - 25, 40);
+    context.stroke();
+    
+    context.font = 'bold 18px Courier New';
+    context.setFillStyle('#333333');
+    context.setTextAlign('center');
+    context.fillText('--- 赛博意念超度凭证 ---', canvasWidth / 2, 70);
+    
+    context.beginPath();
+    context.moveTo(25, 90);
+    context.lineTo(canvasWidth - 25, 90);
+    context.stroke();
+    
+    context.font = '12px Courier New';
+    context.setFillStyle('#666666');
+    context.setTextAlign('left');
+    context.fillText('案发时间：' + dateStr, 40, 120);
+    context.fillText('案发时刻：' + timeStr, 40, 145);
+    
+    context.font = '12px Courier New';
+    context.setFillStyle('#666666');
+    context.setTextAlign('left');
+    
+    const lines = this.wrapText(context, shareText, 220);
+    let y = 190;
+    lines.forEach((line, index) => {
+      context.fillText(line, 40, y + index * 18);
+    });
+    
+    context.font = '12px Courier New';
+    context.setFillStyle('#888888');
+    context.fillText('意念强度：████████ 100%', 40, y + lines.length * 18 + 20);
+    context.fillText('灵魂净化度：████████ 100%', 40, y + lines.length * 18 + 40);
+    
+    context.setStrokeStyle('#FF4444');
+    context.setLineWidth(2);
+    context.setLineDash([]);
+    
+    context.save();
+    context.translate(canvasWidth - 75, canvasHeight - 90);
+    context.rotate(-15 * Math.PI / 180);
+    
+    context.beginPath();
+    context.arc(0, 0, 35, 0, 2 * Math.PI);
+    context.stroke();
+    
+    context.beginPath();
+    context.arc(0, 0, 30, 0, 2 * Math.PI);
+    context.stroke();
+    
+    context.font = 'bold 10px Courier New';
+    context.setFillStyle('#FF4444');
+    context.setTextAlign('center');
+    context.setTextBaseline('middle');
+    context.fillText('查收', 0, -5);
+    context.fillText('成功', 0, 7);
+    context.restore();
+    
+    context.setStrokeStyle('#CCCCCC');
+    context.setLineWidth(1);
+    context.setLineDash([5, 3]);
+    context.beginPath();
+    context.moveTo(25, canvasHeight - 50);
+    context.lineTo(canvasWidth - 25, canvasHeight - 50);
+    context.stroke();
+    
+    context.font = '12px Courier New';
+    context.setFillStyle('#888888');
+    context.setTextAlign('center');
+    context.fillText('--- 脑电波传输完毕 ---', canvasWidth / 2, canvasHeight - 25);
+    
+    context.font = '9px Courier New';
+    context.setFillStyle('#AAAAAA');
+    context.fillText('赛博木鱼 v1.0 | 唯物主义祈福工具', canvasWidth / 2, canvasHeight - 12);
+    
+    context.draw();
+    
+    setTimeout(() => {
+      wx.canvasToTempFilePath({
+        canvasId: 'shareCanvas',
+        success: (res) => {
+          callback(res.tempFilePath);
         },
         fail: (err) => {
-          console.log('showShareImageMenu 失败:', err);
-          this.saveToAlbum(imagePath);
+          console.error('生成图片失败:', err);
+          callback(null);
         }
       });
-    } else {
-      wx.showModal({
-        title: '赛博收据已生成',
-        content: '您的微信版本不支持直接分享，图片已保存到相册',
-        showCancel: false,
-        confirmText: '知道了',
-        success: () => {
-          this.saveToAlbum(imagePath);
-        }
-      });
-    }
+    }, 300);
   },
   
-  saveToAlbum(filePath, shareTarget = '') {
-    wx.saveImageToPhotosAlbum({
-      filePath: filePath,
-      success: () => {
-        if (shareTarget) {
-          wx.showModal({
-            title: '已保存到相册',
-            content: '图片已保存到相册，您可以去' + shareTarget + '分享这张收据',
-            showCancel: false,
-            confirmText: '知道了'
-          });
-        } else {
-          wx.showModal({
-            title: '收据已保存',
-            content: '图片已保存到相册，您可以在朋友圈分享这张收据',
-            showCancel: false,
-            confirmText: '知道了'
-          });
-        }
-      },
-      fail: (err) => {
-        console.error('保存失败:', err);
-        if (err.errMsg && err.errMsg.indexOf('auth deny') !== -1) {
-          wx.showModal({
-            title: '需要授权',
-            content: '请允许访问相册，以便保存收据图片',
-            confirmText: '去授权',
-            success: (res) => {
-              if (res.confirm) {
-                wx.openSetting({
-                  success: (settingRes) => {
-                    if (settingRes.authSetting['scope.writePhotosAlbum']) {
-                      wx.showToast({ title: '已授权，请重试', icon: 'success' });
-                    }
-                  }
-                });
-              }
-            }
-          });
-        } else {
-          wx.showToast({ title: '保存失败', icon: 'none' });
-        }
-      }
-    });
+  onShareAppMessage(res) {
+    const imageUrl = this.data.shareImagePath || '/images/wooden-fish-mini.png';
+    return {
+      title: '请查收我的赛博收据',
+      path: '/pages/index/index',
+      imageUrl: imageUrl
+    };
+  },
+  
+  onShareTimeline() {
+    const imageUrl = this.data.shareImagePath || '/images/wooden-fish-mini.png';
+    return {
+      title: '请查收我的赛博收据',
+      query: '',
+      imageUrl: imageUrl
+    };
   },
   
   onUnload() {

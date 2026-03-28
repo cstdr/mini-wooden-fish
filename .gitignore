@@ -2,6 +2,9 @@
 project.config.json
 project.private.config.json
 
+# Trae AI Skills (不需要打包到小程序)
+.trae/
+
 # 微信小程序编译缓存
 .miniprogram/
 *.wxss.map

@@ -1,5 +1,5 @@
 <view class="container {{isCyber ? (isOverdrive ? 'overdrive' : 'cyber') : 'classic'}} {{shakeClass}}">
-  <image class="bg-image" src="{{isCyber ? '/images/bg-cyber.png' : '/images/bg-classic.png'}}" mode="aspectFill"></image>
+  <image class="bg-image" src="{{isCyber ? '/images/bg-cyber.jpg' : '/images/bg-classic.jpg'}}" mode="aspectFill"></image>
   <view class="bg-overlay"></view>
   
   <view class="content-wrapper">

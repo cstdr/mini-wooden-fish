@@ -172,3 +172,42 @@
   font-size: 28rpx;
   color: #8b8b8b;
 }
+
+.keyword-selector {
+  width: 100%;
+  padding: 20rpx 0;
+  margin-bottom: 20rpx;
+}
+
+.keyword-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.keyword-list {
+  display: inline-flex;
+  gap: 20rpx;
+  padding: 0 30rpx;
+}
+
+.keyword-item {
+  display: inline-block;
+  padding: 16rpx 32rpx;
+  background: #f0f0f0;
+  border-radius: 40rpx;
+  font-size: 30rpx;
+  color: #666;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.keyword-item:active {
+  transform: scale(0.95);
+}
+
+.keyword-item.active {
+  background: linear-gradient(135deg, #d4a574 0%, #c49464 100%);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4rpx 12rpx rgba(212, 165, 116, 0.4);
+}

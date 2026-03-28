@@ -12,7 +12,7 @@
           style="left: {{item.x}}px; animation: floatUp {{item.duration}}s ease-out forwards;"
           data-id="{{item.id}}"
         >
-          +{{item.value}}
+          {{item.keyword}}+{{item.value}}
         </view>
       </block>
     </view>
@@ -34,6 +34,22 @@
         ></image>
       </view>
     </view>
+  </view>
+  
+  <view class="keyword-selector">
+    <scroll-view class="keyword-scroll" scroll-x enable-flex>
+      <view class="keyword-list">
+        <block wx:for="{{keywords}}" wx:key="index">
+          <view 
+            class="keyword-item {{selectedKeywordIndex === index ? 'active' : ''}}" 
+            data-index="{{index}}"
+            bindtap="onKeywordSelect"
+          >
+            {{item}}
+          </view>
+        </block>
+      </view>
+    </scroll-view>
   </view>
   
   <view class="settings-button" bindtap="goToSettings">

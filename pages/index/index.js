@@ -12,7 +12,10 @@ Page({
     currentSoundIndex: 0,
     audioPool: [],
     audioPoolSize: 5,
-    audioInitialized: false
+    audioInitialized: false,
+    keywords: ['暴富', '上岸', '发量', '涨停', '颜值', '脱单', '好梦'],
+    selectedKeywordIndex: 0,
+    selectedKeyword: '暴富'
   },
   
   animationIdCounter: 0,
@@ -105,6 +108,15 @@ Page({
     this.triggerHitAnimation();
   },
   
+  onKeywordSelect(e) {
+    const index = e.currentTarget.dataset.index;
+    const keyword = this.data.keywords[index];
+    this.setData({
+      selectedKeywordIndex: index,
+      selectedKeyword: keyword
+    });
+  },
+  
   updateMerit(increment) {
     const newMerit = this.data.merit + increment;
     this.setData({ merit: newMerit });
@@ -121,10 +133,12 @@ Page({
     const id = ++this.animationIdCounter;
     const randomX = Math.random() * 200 - 100;
     const duration = 1.0 + Math.random() * 0.4;
+    const keyword = this.data.selectedKeyword;
     
     const animation = {
       id,
       value,
+      keyword,
       x: randomX + 187,
       duration
     };

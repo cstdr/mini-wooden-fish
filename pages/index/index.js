@@ -410,16 +410,15 @@ Page({
     } else {
       shakeClass = 'shake-light';
       duration = 100;
-      if (isCyber) {
-        wx.vibrateShort({ type: 'light' });
-      }
+      wx.vibrateShort({ type: 'light' });
     }
     
-    this.setData({ isShaking: true, shakeClass: shakeClass });
-    
-    setTimeout(() => {
-      this.setData({ isShaking: false, shakeClass: '' });
-    }, duration);
+    if (isCyber) {
+      this.setData({ isShaking: true, shakeClass: shakeClass });
+      setTimeout(() => {
+        this.setData({ isShaking: false, shakeClass: '' });
+      }, duration);
+    }
   },
   
   triggerHitAnimation() {

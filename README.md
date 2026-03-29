@@ -38,12 +38,18 @@
 
 ### 经典模式
 <p align="center">
-  <img src="images/bg-classic.jpg" alt="经典模式" width="300">
+  <img src="pics/pic-classic.png" alt="经典模式" width="300">
 </p>
 
 ### 赛博模式
 <p align="center">
-  <img src="images/bg-cyber.jpg" alt="赛博模式" width="300">
+  <img src="pics/pic-cyber.png" alt="赛博模式" width="300">
+  <img src="pics/pic-cyber-mad.png" alt="赛博模式" width="300">
+</p>
+
+### 配置页面
+<p align="center">
+  <img src="pics/pic-setting.png" alt="配置页面" width="300">
 </p>
 
 ---

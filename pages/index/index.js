@@ -543,7 +543,7 @@ Page({
     
     const context = wx.createCanvasContext('shareCanvas');
     const canvasWidth = 300;
-    const canvasHeight = 450;
+    const canvasHeight = 240;
     
     this.drawThermalReceipt(context, canvasWidth, canvasHeight, tapCount, currentWord, dateStr, timeStr);
     
@@ -564,128 +564,91 @@ Page({
   },
   
   drawThermalReceipt(context, w, h, merit, keyword, date, time) {
-    const isPrintMode = true;
-    
     context.setFillStyle('#f5f3ef');
     context.fillRect(0, 0, w, h);
     
-    for (let i = 0; i < w; i += 3) {
-      for (let j = 0; j < h; j += 3) {
+    for (let i = 0; i < w; i += 4) {
+      for (let j = 0; j < h; j += 4) {
         if (Math.random() > 0.97) {
-          context.setFillStyle('rgba(0,0,0,0.03)');
+          context.setFillStyle('rgba(0,0,0,0.04)');
           context.fillRect(i, j, 2, 2);
         }
       }
     }
     
-    context.setFillStyle('#333');
-    context.fillRect(0, 0, w, 3);
-    context.fillRect(0, h - 3, w, 3);
-    context.fillRect(0, 0, 3, h);
-    context.fillRect(w - 3, 0, 3, h);
-    
-    context.setFillStyle('#e8e5e0');
-    context.fillRect(0, 0, w, 8);
-    context.fillRect(0, h - 8, w, 8);
-    
-    context.font = 'bold 14px Courier New';
+    context.font = 'bold 12px Courier New';
     context.setFillStyle('#1a1a1a');
     context.setTextAlign('center');
-    context.fillText('==============================', w/2, 25);
-    context.fillText('    赛博意念超度凭证    ', w/2, 42);
-    context.fillText('==============================', w/2, 58);
+    context.fillText('= = = = = = = = = = = = = = = =', w/2, 18);
+    context.fillText('    赛博意念超度凭证    ', w/2, 32);
+    context.fillText('= = = = = = = = = = = = = = = =', w/2, 46);
     
-    context.font = '11px Courier New';
+    context.font = '9px Courier New';
     context.setTextAlign('left');
-    context.fillText('----------------------------------------', 15, 80);
-    
-    context.fillText('超度时间：', 15, 100);
+    context.fillText('时间：' + date + ' ' + time, 12, 62);
     context.setTextAlign('right');
-    context.fillText(date + ' ' + time, w - 15, 100);
+    context.fillText('念头：【' + keyword + '】', w - 12, 62);
     
-    context.setTextAlign('left');
-    context.fillText('当前念头：', 15, 118);
-    context.setTextAlign('right');
-    context.fillText('【' + keyword + '】', w - 15, 118);
-    
-    context.font = '11px Courier New';
-    context.setTextAlign('left');
-    context.fillText('----------------------------------------', 15, 135);
-    
-    const crazyTexts = [
-      '今日已向宇宙发起 [' + merit + '] 次物理DDoS攻击',
-      '强制摄取【' + keyword + '】能量',
-      '',
-      '粉碎了 [' + (merit * 3) + '] 次对生活的妥协',
-      '已通过 1337 端口提交天庭审核',
-      '',
-      '关于"' + keyword + '"的焦虑已进行',
-      '512位加密超度，无法撤回'
-    ];
-    
-    context.font = 'bold 13px Courier New';
-    let yPos = 158;
-    crazyTexts.forEach((line, idx) => {
-      if (idx === 2 || idx === 5) {
-        yPos += 5;
-      }
-      context.fillText(line, 15, yPos);
-      yPos += 18;
-    });
-    
-    context.font = '11px Courier New';
-    context.setTextAlign('left');
-    context.fillText('----------------------------------------', 15, yPos + 10);
-    
-    context.font = '10px Courier New';
-    context.fillText('意念强度：', 15, yPos + 30);
-    context.fillText('████████████████ 100%', 85, yPos + 30);
-    
-    context.fillText('灵魂净化度：', 15, yPos + 48);
-    context.fillText('████████████████ 100%', 85, yPos + 48);
-    
-    context.font = '11px Courier New';
-    context.fillText('----------------------------------------', 15, yPos + 70);
-    
-    context.font = 'bold 14px Courier New';
+    context.font = '9px Courier New';
     context.setTextAlign('center');
-    context.fillText('==============================', w/2, yPos + 88);
-    context.fillText('    脑电波传输完毕    ', w/2, yPos + 104);
-    context.fillText('==============================', w/2, yPos + 120);
+    context.fillText('- - - - - - - - - - - - - - - - - - -', w/2, 76);
+    
+    const crazyText1 = '今日已向宇宙发起 [' + merit + '] 次DDoS攻击';
+    const crazyText2 = '强制摄取【' + keyword + '】能量';
+    const crazyText3 = '已通过1337端口提交天庭审核';
+    
+    context.font = 'bold 10px Courier New';
+    context.setTextAlign('left');
+    context.fillText(crazyText1, 12, 92);
+    context.fillText(crazyText2, 12, 106);
+    
+    context.font = '9px Courier New';
+    context.fillText(crazyText3, 12, 120);
+    
+    context.setTextAlign('left');
+    context.fillText('强度：████████████████ 100%', 12, 138);
+    context.fillText('净化：████████████████ 100%', 12, 152);
+    
+    context.font = '9px Courier New';
+    context.setTextAlign('center');
+    context.fillText('- - - - - - - - - - - - - - - - - - -', w/2, 168);
+    
+    context.font = 'bold 11px Courier New';
+    context.fillText('= = = 脑电波传输完毕 = = =', w/2, 182);
     
     context.setGlobalAlpha(0.85);
     context.save();
-    context.translate(w - 70, h - 95);
+    context.translate(w - 45, h - 45);
     context.rotate(-12 * Math.PI / 180);
     
     context.beginPath();
-    context.arc(0, 0, 40, 0, 2 * Math.PI);
+    context.arc(0, 0, 28, 0, 2 * Math.PI);
     context.setFillStyle('rgba(200, 30, 30, 0.15)');
     context.fill();
     context.setStrokeStyle('rgba(180, 20, 20, 0.8)');
-    context.setLineWidth(3);
+    context.setLineWidth(2);
     context.stroke();
     
     context.beginPath();
-    context.arc(0, 0, 32, 0, 2 * Math.PI);
+    context.arc(0, 0, 22, 0, 2 * Math.PI);
     context.setStrokeStyle('rgba(180, 20, 20, 0.6)');
-    context.setLineWidth(1.5);
+    context.setLineWidth(1);
     context.stroke();
     
-    context.font = 'bold 12px Courier New';
+    context.font = 'bold 9px Courier New';
     context.setFillStyle('rgba(150, 20, 20, 0.9)');
     context.setTextAlign('center');
     context.setTextBaseline('middle');
-    context.fillText('查收', 0, -6);
-    context.fillText('成功', 0, 8);
+    context.fillText('查收', 0, -4);
+    context.fillText('成功', 0, 6);
     
     context.restore();
     context.setGlobalAlpha(1);
     
-    context.font = '9px Courier New';
+    context.font = '8px Courier New';
     context.setFillStyle('#999');
     context.setTextAlign('center');
-    context.fillText('唯物主义祈福工具 v2.0', w/2, h - 18);
+    context.fillText('唯物主义祈福工具 v2.0', w/2, h - 6);
   },
   
   onShareAppMessage(res) {

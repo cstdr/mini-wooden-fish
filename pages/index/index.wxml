@@ -73,4 +73,4 @@
   <button class="hidden-share-btn" open-type="share" id="shareBtn"></button>
 </view>
 
-<canvas canvas-id="shareCanvas" class="share-canvas" style="width: 300px; height: 450px;"></canvas>
+<canvas canvas-id="shareCanvas" class="share-canvas" style="width: 300px; height: 240px;"></canvas>

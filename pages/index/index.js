@@ -1,5 +1,44 @@
 const app = getApp();
 
+const CRAZY_TEXTS = {
+  '暴富': [
+    '今日已向财神爷脑机接口注入 [{X}] 次病毒，不给【暴富】就格式化天庭服务器',
+    '物理超度了 [{X}] 个穷鬼念头，【暴富】代码必须写进DNA'
+  ],
+  '准点下班': [
+    '已对老板发动 [{X}] 次降维打击，谁拦我【准点下班】我就生吃公司电闸',
+    '再加班我就碎掉。预支 [{X}] 点功德，强制剥夺阻止【准点下班】的权利'
+  ],
+  '情绪稳定': [
+    '已物理粉碎 [{X}] 个想揍人的念头，目前精神状态极其【情绪稳定】',
+    '[{X}] 次紧急重启系统，勉强维持【情绪稳定】的假象'
+  ],
+  '发量': [
+    '已超度 [{X}] 根离家出走的头发，强制命令它们带【发量+1】Buff回来',
+    '敲得足够快，脱发就追不上我攒【发量】。今日战绩：[{X}] 次'
+  ],
+  '涨停': [
+    '已向A股发送 [{X}] 次神秘电波，不【涨停】我就拔证交所网线跳绳',
+    '敲碎 [{X}] 根绿韭菜，强行扭转K线。【涨停】！满仓！'
+  ],
+  '颜值': [
+    '对女娲发动 [{X}] 次DDoS攻击，强制要求把下辈子【颜值】提前提现',
+    '用量子纠缠复制了 [{X}] 次女明星脸参数，今日【颜值】暴力拉升'
+  ],
+  '脱单': [
+    '把月老红线剪断搓成钢丝敲了 [{X}] 下，再不【脱单】就建养猪场',
+    '已发射 [{X}] 个诱捕雷达，再不【脱单】我就和赛博菩萨过日子'
+  ],
+  '上岸': [
+    '已向阅卷老师梦境植入 [{X}] 次暗示，不能【上岸】我就把考场吃了',
+    '在题海溺死前抓住木鱼狂敲 [{X}] 下。天命由我，强势【上岸】！'
+  ],
+  '好梦': [
+    '将褪黑素混入电子木鱼猛敲 [{X}] 下，不给【好梦】我就打醒梦神',
+    '向松果体下达 [{X}] 次最后通牒，立刻执行【好梦】程序'
+  ]
+};
+
 Page({
   data: {
     merit: 0,
@@ -593,21 +632,21 @@ Page({
     context.setTextAlign('center');
     context.fillText('- - - - - - - - - - - - - - - - - - -', w/2, 76);
     
-    const crazyText1 = '今日已向宇宙发起 [' + merit + '] 次DDoS攻击';
-    const crazyText2 = '强制摄取【' + keyword + '】能量';
-    const crazyText3 = '已通过1337端口提交天庭审核';
+    const textOptions = CRAZY_TEXTS[keyword] || CRAZY_TEXTS['暴富'];
+    const randomText = textOptions[Math.floor(Math.random() * textOptions.length)];
+    const crazyLine1 = randomText.replace(/\{X\}/g, merit);
+    const crazyLine2 = '已通过1337端口提交天庭审核';
     
-    context.font = 'bold 10px Courier New';
+    context.font = 'bold 9px Courier New';
     context.setTextAlign('left');
-    context.fillText(crazyText1, 12, 92);
-    context.fillText(crazyText2, 12, 106);
+    this.drawWrappedText(context, crazyLine1, 12, 92, w - 24, 14);
     
     context.font = '9px Courier New';
-    context.fillText(crazyText3, 12, 120);
+    context.fillText(crazyLine2, 12, 112);
     
     context.setTextAlign('left');
-    context.fillText('强度：████████████████ 100%', 12, 138);
-    context.fillText('净化：████████████████ 100%', 12, 152);
+    context.fillText('强度：████████████████ 100%', 12, 132);
+    context.fillText('净化：████████████████ 100%', 12, 146);
     
     context.font = '9px Courier New';
     context.setTextAlign('center');
@@ -649,6 +688,28 @@ Page({
     context.setFillStyle('#999');
     context.setTextAlign('center');
     context.fillText('唯物主义祈福工具 v2.0', w/2, h - 6);
+  },
+  
+  drawWrappedText(context, text, x, y, maxWidth, lineHeight) {
+    context.font = 'bold 9px Courier New';
+    const metrics = context.measureText(text);
+    if (metrics.width <= maxWidth) {
+      context.fillText(text, x, y);
+      return;
+    }
+    let line = '';
+    for (let i = 0; i < text.length; i++) {
+      line += text[i];
+      const w = context.measureText(line).width;
+      if (w > maxWidth) {
+        context.fillText(line.slice(0, -1), x, y);
+        y += lineHeight;
+        line = text[i];
+      }
+    }
+    if (line) {
+      context.fillText(line, x, y);
+    }
   },
   
   onShareAppMessage(res) {

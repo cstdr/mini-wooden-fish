@@ -383,7 +383,8 @@
 }
 
 .cyber-label {
-  color: #666;
+  color: #39FF14;
+  text-shadow: 0 0 10rpx rgba(57, 255, 20, 0.5);
 }
 
 .cyber-value {
@@ -402,8 +403,9 @@
 
 .cps-value {
   font-size: 24rpx;
-  color: #888;
+  color: #39FF14;
   font-family: 'Courier New', monospace;
+  text-shadow: 0 0 8rpx rgba(57, 255, 20, 0.4);
 }
 
 .overdrive-badge {

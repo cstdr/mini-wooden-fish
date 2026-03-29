@@ -41,7 +41,6 @@
     </view>
     
     <view class="keyword-selector">
-      <text class="selector-label {{isCyber ? 'cyber-label' : ''}}" wx:if="{{isCyber}}">欲望外挂加载</text>
       <scroll-view class="keyword-scroll" scroll-x enable-flex>
         <view class="keyword-list">
           <block wx:for="{{keywords}}" wx:key="index">

@@ -543,92 +543,23 @@ Page({
       String(now.getSeconds()).padStart(2, '0');
     
     const context = wx.createCanvasContext('shareCanvas');
-    
     const canvasWidth = 300;
     const canvasHeight = 450;
     
-    context.setFillStyle('#FFFFFF');
-    context.fillRect(0, 0, canvasWidth, canvasHeight);
+    const themes = ['cyberpunk', 'achievement', 'comic', 'minimal', 'glitch'];
+    const theme = themes[Math.floor(Math.random() * themes.length)];
     
-    context.setStrokeStyle('#CCCCCC');
-    context.setLineWidth(1);
-    context.setLineDash([5, 3]);
-    context.beginPath();
-    context.moveTo(25, 40);
-    context.lineTo(canvasWidth - 25, 40);
-    context.stroke();
-    
-    context.font = 'bold 18px Courier New';
-    context.setFillStyle('#333333');
-    context.setTextAlign('center');
-    context.fillText('--- 赛博意念超度凭证 ---', canvasWidth / 2, 70);
-    
-    context.beginPath();
-    context.moveTo(25, 90);
-    context.lineTo(canvasWidth - 25, 90);
-    context.stroke();
-    
-    context.font = '12px Courier New';
-    context.setFillStyle('#666666');
-    context.setTextAlign('left');
-    context.fillText('案发时间：' + dateStr, 40, 120);
-    context.fillText('案发时刻：' + timeStr, 40, 145);
-    
-    context.font = '12px Courier New';
-    context.setFillStyle('#666666');
-    context.setTextAlign('left');
-    
-    const lines = this.wrapText(context, shareText, 220);
-    let y = 190;
-    lines.forEach((line, index) => {
-      context.fillText(line, 40, y + index * 18);
-    });
-    
-    context.font = '12px Courier New';
-    context.setFillStyle('#888888');
-    context.fillText('意念强度：████████ 100%', 40, y + lines.length * 18 + 20);
-    context.fillText('灵魂净化度：████████ 100%', 40, y + lines.length * 18 + 40);
-    
-    context.setStrokeStyle('#FF4444');
-    context.setLineWidth(2);
-    context.setLineDash([]);
-    
-    context.save();
-    context.translate(canvasWidth - 75, canvasHeight - 90);
-    context.rotate(-15 * Math.PI / 180);
-    
-    context.beginPath();
-    context.arc(0, 0, 35, 0, 2 * Math.PI);
-    context.stroke();
-    
-    context.beginPath();
-    context.arc(0, 0, 30, 0, 2 * Math.PI);
-    context.stroke();
-    
-    context.font = 'bold 10px Courier New';
-    context.setFillStyle('#FF4444');
-    context.setTextAlign('center');
-    context.setTextBaseline('middle');
-    context.fillText('查收', 0, -5);
-    context.fillText('成功', 0, 7);
-    context.restore();
-    
-    context.setStrokeStyle('#CCCCCC');
-    context.setLineWidth(1);
-    context.setLineDash([5, 3]);
-    context.beginPath();
-    context.moveTo(25, canvasHeight - 50);
-    context.lineTo(canvasWidth - 25, canvasHeight - 50);
-    context.stroke();
-    
-    context.font = '12px Courier New';
-    context.setFillStyle('#888888');
-    context.setTextAlign('center');
-    context.fillText('--- 脑电波传输完毕 ---', canvasWidth / 2, canvasHeight - 25);
-    
-    context.font = '9px Courier New';
-    context.setFillStyle('#AAAAAA');
-    context.fillText('赛博木鱼 v1.0 | 唯物主义祈福工具', canvasWidth / 2, canvasHeight - 12);
+    if (theme === 'cyberpunk') {
+      this.drawCyberpunkReceipt(context, canvasWidth, canvasHeight, tapCount, currentWord, shareText, dateStr, timeStr);
+    } else if (theme === 'achievement') {
+      this.drawAchievementBadge(context, canvasWidth, canvasHeight, tapCount, currentWord, shareText);
+    } else if (theme === 'comic') {
+      this.drawComicStyle(context, canvasWidth, canvasHeight, tapCount, currentWord, shareText);
+    } else if (theme === 'minimal') {
+      this.drawMinimalStyle(context, canvasWidth, canvasHeight, tapCount, currentWord, shareText);
+    } else {
+      this.drawGlitchStyle(context, canvasWidth, canvasHeight, tapCount, currentWord, shareText, dateStr);
+    }
     
     context.draw();
     
@@ -644,6 +575,308 @@ Page({
         }
       });
     }, 300);
+  },
+  
+  drawCyberpunkReceipt(context, w, h, merit, keyword, text, date, time) {
+    context.setFillStyle('#0a0a0f');
+    context.fillRect(0, 0, w, h);
+    
+    for (let i = 0; i < h; i += 4) {
+      context.setFillStyle('rgba(0, 255, 136, 0.03)');
+      context.fillRect(0, i, w, 2);
+    }
+    
+    context.font = 'bold 16px Courier New';
+    context.setFillStyle('#00ff88');
+    context.setTextAlign('center');
+    context.fillText('[ 系统凭证 ]', w/2, 40);
+    
+    context.font = '10px Courier New';
+    context.setFillStyle('#666');
+    context.fillText(date + ' ' + time, w/2, 60);
+    
+    context.setStrokeStyle('#00ff88');
+    context.setLineWidth(1);
+    context.setLineDash([5, 5]);
+    context.beginPath();
+    context.moveTo(20, 80);
+    context.lineTo(w - 20, 80);
+    context.stroke();
+    
+    context.font = 'bold 32px Courier New';
+    context.setFillStyle('#ff00ff');
+    context.setTextAlign('center');
+    context.shadowColor = '#ff00ff';
+    context.shadowBlur = 20;
+    context.fillText(merit, w/2, 140);
+    context.shadowBlur = 0;
+    
+    context.font = '14px Courier New';
+    context.setFillStyle('#00ffff');
+    context.fillText(keyword, w/2, 170);
+    
+    context.setLineDash([]);
+    context.beginPath();
+    context.moveTo(20, 190);
+    context.lineTo(w - 20, 190);
+    context.stroke();
+    
+    context.font = '11px Courier New';
+    context.setFillStyle('#888');
+    context.setTextAlign('left');
+    const lines = text.split('\n');
+    lines.forEach((line, i) => {
+      context.fillText(line, 30, 215 + i * 20);
+    });
+    
+    context.setFillStyle('#ff00ff');
+    context.beginPath();
+    context.arc(w - 60, h - 80, 40, 0, 2 * Math.PI);
+    context.stroke();
+    context.font = 'bold 14px Courier New';
+    context.setTextAlign('center');
+    context.fillText('APPROVED', w - 60, h - 75);
+    
+    context.font = '9px Courier New';
+    context.setFillStyle('#444');
+    context.fillText('CYBER_WOODEN_FISH v2.0', w/2, h - 20);
+  },
+  
+  drawAchievementBadge(context, w, h, merit, keyword, text) {
+    context.setFillStyle('#1a1a2e');
+    context.fillRect(0, 0, w, h);
+    
+    const gradient = context.createLinearGradient(0, 0, w, h);
+    gradient.addColorStop(0, '#ffd700');
+    gradient.addColorStop(0.5, '#ffaa00');
+    gradient.addColorStop(1, '#ff8800');
+    
+    context.beginPath();
+    context.moveTo(w/2, 30);
+    for (let i = 0; i < 12; i++) {
+      const angle = (i * 30 - 90) * Math.PI / 180;
+      const radius = i % 2 === 0 ? 70 : 55;
+      context.lineTo(w/2 + Math.cos(angle) * radius, 80 + Math.sin(angle) * radius);
+    }
+    context.closePath();
+    context.setFillStyle(gradient);
+    context.fill();
+    context.strokeStyle = '#fff';
+    context.lineWidth = 2;
+    context.stroke();
+    
+    context.setFillStyle('#1a1a2e');
+    context.beginPath();
+    context.arc(w/2, 80, 35, 0, 2 * Math.PI);
+    context.fill();
+    
+    context.font = 'bold 24px Arial';
+    context.setFillStyle('#ffd700');
+    context.setTextAlign('center');
+    context.setTextBaseline('middle');
+    context.fillText(merit, w/2, 82);
+    
+    context.setTextBaseline('alphabetic');
+    context.font = 'bold 14px Arial';
+    context.setFillStyle('#fff');
+    context.fillText('达成成就！', w/2, 175);
+    
+    context.font = 'bold 18px Arial';
+    context.setFillStyle('#ff6b6b');
+    context.fillText(keyword, w/2, 200);
+    
+    context.setFillStyle('#333');
+    context.fillRect(30, 220, w - 60, 80);
+    context.setFillStyle('#222');
+    context.fillRect(32, 222, (w - 64) * Math.min(merit / 1000, 1), 76);
+    
+    context.font = '10px Arial';
+    context.setFillStyle('#888');
+    context.setTextAlign('left');
+    context.fillText(text, 40, 250);
+    
+    context.font = 'bold 12px Arial';
+    context.setFillStyle('#ffd700');
+    context.setTextAlign('center');
+    context.fillText('⭐ 分享我的战绩 ⭐', w/2, 330);
+    
+    context.font = '9px Arial';
+    context.setFillStyle('#666');
+    context.fillText('赛博木鱼 - 功德无量', w/2, h - 20);
+  },
+  
+  drawComicStyle(context, w, h, merit, keyword, text) {
+    context.setFillStyle('#fff9e6');
+    context.fillRect(0, 0, w, h);
+    
+    context.setStrokeStyle('#000');
+    context.setLineWidth(3);
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(w, 0);
+    context.lineTo(w, h);
+    context.lineTo(0, h);
+    context.closePath();
+    context.stroke();
+    
+    context.setFillStyle('#ffcc00');
+    context.beginPath();
+    context.arc(w/2, 60, 45, 0, 2 * Math.PI);
+    context.fill();
+    context.stroke();
+    
+    context.font = 'bold 36px Arial';
+    context.setFillStyle('#000');
+    context.setTextAlign('center');
+    context.setTextBaseline('middle');
+    context.fillText('💰', w/2, 62);
+    
+    context.setTextBaseline('alphabetic');
+    context.font = 'bold 18px Arial';
+    context.setFillStyle('#ff3366');
+    context.fillText('今日份暴富', 40, 130);
+    
+    context.beginPath();
+    context.moveTo(40, 140);
+    context.lineTo(100, 130);
+    context.lineTo(40, 120);
+    context.closePath();
+    context.setFillStyle('#ffcc00');
+    context.fill();
+    context.stroke();
+    
+    context.font = 'bold 48px Arial';
+    context.setFillStyle('#333');
+    context.setTextAlign('center');
+    context.fillText(merit, w/2, 200);
+    
+    context.font = 'bold 20px Arial';
+    context.setFillStyle('#ff6600');
+    context.fillText(keyword + ' 达成!', w/2, 235);
+    
+    context.setFillStyle('#333');
+    context.font = '12px Arial';
+    context.setTextAlign('left');
+    const lines = text.split('\n');
+    lines.forEach((line, i) => {
+      context.fillText(line, 30, 270 + i * 18);
+    });
+    
+    context.font = 'bold 16px Arial';
+    context.setFillStyle('#000');
+    context.setTextAlign('center');
+    context.fillText('POW! 功德圆满!', w/2, h - 50);
+    
+    context.setFillStyle('#666');
+    context.font = '10px Arial';
+    context.fillText('— 赛博木鱼小程序 —', w/2, h - 25);
+  },
+  
+  drawMinimalStyle(context, w, h, merit, keyword, text) {
+    context.setFillStyle('#fafafa');
+    context.fillRect(0, 0, w, h);
+    
+    context.setStrokeStyle('#ddd');
+    context.setLineWidth(1);
+    context.beginPath();
+    context.moveTo(40, 100);
+    context.lineTo(w - 40, 100);
+    context.stroke();
+    
+    context.font = 'normal 12px Georgia';
+    context.setFillStyle('#999');
+    context.setTextAlign('center');
+    context.fillText('wooden fish', w/2, 80);
+    
+    context.font = 'bold 72px Georgia';
+    context.setFillStyle('#1a1a1a');
+    context.fillText(merit, w/2, 180);
+    
+    context.font = '16px Georgia';
+    context.setFillStyle('#666');
+    context.fillText(keyword, w/2, 215);
+    
+    context.beginPath();
+    context.moveTo(40, 240);
+    context.lineTo(w - 40, 240);
+    context.stroke();
+    
+    context.font = '11px Georgia';
+    context.setFillStyle('#999');
+    context.setTextAlign('left');
+    const lines = text.split('\n');
+    lines.forEach((line, i) => {
+      context.fillText(line, 40, 270 + i * 18);
+    });
+    
+    context.beginPath();
+    context.moveTo(40, h - 60);
+    context.lineTo(w - 40, h - 60);
+    context.stroke();
+    
+    context.font = '10px Georgia';
+    context.setFillStyle('#ccc');
+    context.setTextAlign('center');
+    context.fillText('share from wooden fish', w/2, h - 40);
+  },
+  
+  drawGlitchStyle(context, w, h, merit, keyword, text, date) {
+    context.setFillStyle('#0f0f0f');
+    context.fillRect(0, 0, w, h);
+    
+    for (let i = 0; i < 50; i++) {
+      const y = Math.random() * h;
+      const offset = (Math.random() - 0.5) * 10;
+      context.setFillStyle(`rgba(${Math.random() > 0.5 ? '255,0,0' : '0,255,255'}, 0.3)`);
+      context.fillRect(offset, y, w, 2);
+    }
+    
+    context.font = 'bold 20px Impact';
+    context.setTextAlign('center');
+    context.setFillStyle('#ff0040');
+    context.fillText('// ERROR //', w/2 + 2, 42);
+    context.setFillStyle('#00ffff');
+    context.fillText('// ERROR //', w/2 - 2, 38);
+    context.setFillStyle('#fff');
+    context.fillText('// ERROR //', w/2, 40);
+    
+    context.font = 'bold 48px Impact';
+    context.setFillStyle('#ff0040');
+    context.fillText(merit, w/2 + 3, 120);
+    context.setFillStyle('#00ffff');
+    context.fillText(merit, w/2 - 3, 116);
+    context.setFillStyle('#fff');
+    context.fillText(merit, w/2, 118);
+    
+    context.font = 'bold 18px Impact';
+    context.setFillStyle('#ffff00');
+    context.fillText(keyword, w/2, 155);
+    
+    context.setStrokeStyle('#333');
+    context.setLineWidth(1);
+    context.setLineDash([3, 3]);
+    context.beginPath();
+    context.moveTo(20, 180);
+    context.lineTo(w - 20, 180);
+    context.stroke();
+    
+    context.font = '12px monospace';
+    context.setFillStyle('#888');
+    context.setTextAlign('left');
+    const lines = text.split('\n');
+    lines.forEach((line, i) => {
+      context.fillStyle = i % 2 === 0 ? '#ff0040' : '#00ffff';
+      context.fillText('> ' + line, 30, 210 + i * 20);
+    });
+    
+    context.setFillStyle('#ffff00');
+    context.font = 'bold 14px Impact';
+    context.setTextAlign('center');
+    context.fillText('[ TRANSMISSION COMPLETE ]', w/2, h - 40);
+    
+    context.font = '9px monospace';
+    context.setFillStyle('#444');
+    context.fillText(date + ' | GLITCH_MODE_ACTIVE', w/2, h - 20);
   },
   
   onShareAppMessage(res) {

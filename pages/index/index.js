@@ -544,7 +544,7 @@ Page({
     
     const context = wx.createCanvasContext('shareCanvas');
     const canvasWidth = 300;
-    const canvasHeight = 450;
+    const canvasHeight = 240;
     
     const themes = ['cyberpunk', 'achievement', 'comic', 'minimal', 'glitch'];
     const theme = themes[Math.floor(Math.random() * themes.length)];
@@ -581,65 +581,60 @@ Page({
     context.setFillStyle('#0a0a0f');
     context.fillRect(0, 0, w, h);
     
-    for (let i = 0; i < h; i += 4) {
-      context.setFillStyle('rgba(0, 255, 136, 0.03)');
+    for (let i = 0; i < h; i += 6) {
+      context.setFillStyle('rgba(0, 255, 136, 0.05)');
       context.fillRect(0, i, w, 2);
     }
     
-    context.font = 'bold 16px Courier New';
+    context.font = 'bold 14px Courier New';
     context.setFillStyle('#00ff88');
     context.setTextAlign('center');
-    context.fillText('[ 系统凭证 ]', w/2, 40);
-    
-    context.font = '10px Courier New';
-    context.setFillStyle('#666');
-    context.fillText(date + ' ' + time, w/2, 60);
+    context.fillText('[ CYBER RECEIPT ]', w/2, 25);
     
     context.setStrokeStyle('#00ff88');
     context.setLineWidth(1);
-    context.setLineDash([5, 5]);
+    context.setLineDash([3, 3]);
     context.beginPath();
-    context.moveTo(20, 80);
-    context.lineTo(w - 20, 80);
+    context.moveTo(15, 38);
+    context.lineTo(w - 15, 38);
     context.stroke();
     
-    context.font = 'bold 32px Courier New';
+    context.font = 'bold 48px Courier New';
     context.setFillStyle('#ff00ff');
     context.setTextAlign('center');
     context.shadowColor = '#ff00ff';
-    context.shadowBlur = 20;
-    context.fillText(merit, w/2, 140);
+    context.shadowBlur = 15;
+    context.fillText(merit, w/2, 95);
     context.shadowBlur = 0;
     
-    context.font = '14px Courier New';
+    context.font = 'bold 16px Courier New';
     context.setFillStyle('#00ffff');
-    context.fillText(keyword, w/2, 170);
+    context.fillText(keyword, w/2, 120);
+    
+    context.font = '9px Courier New';
+    context.setFillStyle('#666');
+    context.fillText(date + ' ' + time, w/2, 140);
     
     context.setLineDash([]);
     context.beginPath();
-    context.moveTo(20, 190);
-    context.lineTo(w - 20, 190);
+    context.moveTo(15, 155);
+    context.lineTo(w - 15, 155);
     context.stroke();
     
-    context.font = '11px Courier New';
+    context.font = '10px Courier New';
     context.setFillStyle('#888');
     context.setTextAlign('left');
-    const lines = text.split('\n');
-    lines.forEach((line, i) => {
-      context.fillText(line, 30, 215 + i * 20);
-    });
+    context.fillText(text, 20, 175);
     
+    context.font = 'bold 10px Courier New';
     context.setFillStyle('#ff00ff');
-    context.beginPath();
-    context.arc(w - 60, h - 80, 40, 0, 2 * Math.PI);
-    context.stroke();
-    context.font = 'bold 14px Courier New';
-    context.setTextAlign('center');
-    context.fillText('APPROVED', w - 60, h - 75);
+    context.setTextAlign('right');
+    context.fillText('APPROVED', w - 20, h - 15);
     
-    context.font = '9px Courier New';
+    context.font = '8px Courier New';
     context.setFillStyle('#444');
-    context.fillText('CYBER_WOODEN_FISH v2.0', w/2, h - 20);
+    context.setTextAlign('center');
+    context.fillText('CYBER_WOODEN_FISH', w/2, h - 8);
   },
   
   drawAchievementBadge(context, w, h, merit, keyword, text) {
@@ -652,11 +647,11 @@ Page({
     gradient.addColorStop(1, '#ff8800');
     
     context.beginPath();
-    context.moveTo(w/2, 30);
-    for (let i = 0; i < 12; i++) {
-      const angle = (i * 30 - 90) * Math.PI / 180;
-      const radius = i % 2 === 0 ? 70 : 55;
-      context.lineTo(w/2 + Math.cos(angle) * radius, 80 + Math.sin(angle) * radius);
+    context.moveTo(w/2, 15);
+    for (let i = 0; i < 8; i++) {
+      const angle = (i * 45 - 90) * Math.PI / 180;
+      const radius = i % 2 === 0 ? 45 : 35;
+      context.lineTo(w/2 + Math.cos(angle) * radius, 45 + Math.sin(angle) * radius);
     }
     context.closePath();
     context.setFillStyle(gradient);
@@ -667,42 +662,37 @@ Page({
     
     context.setFillStyle('#1a1a2e');
     context.beginPath();
-    context.arc(w/2, 80, 35, 0, 2 * Math.PI);
+    context.arc(w/2, 45, 22, 0, 2 * Math.PI);
     context.fill();
     
-    context.font = 'bold 24px Arial';
+    context.font = 'bold 18px Arial';
     context.setFillStyle('#ffd700');
     context.setTextAlign('center');
     context.setTextBaseline('middle');
-    context.fillText(merit, w/2, 82);
+    context.fillText(merit, w/2, 46);
     
     context.setTextBaseline('alphabetic');
     context.font = 'bold 14px Arial';
     context.setFillStyle('#fff');
-    context.fillText('达成成就！', w/2, 175);
+    context.fillText('达成成就!', w/2, 95);
     
-    context.font = 'bold 18px Arial';
+    context.font = 'bold 16px Arial';
     context.setFillStyle('#ff6b6b');
-    context.fillText(keyword, w/2, 200);
+    context.fillText(keyword, w/2, 115);
     
     context.setFillStyle('#333');
-    context.fillRect(30, 220, w - 60, 80);
+    context.fillRect(20, 135, w - 40, 35);
     context.setFillStyle('#222');
-    context.fillRect(32, 222, (w - 64) * Math.min(merit / 1000, 1), 76);
-    
-    context.font = '10px Arial';
-    context.setFillStyle('#888');
-    context.setTextAlign('left');
-    context.fillText(text, 40, 250);
-    
-    context.font = 'bold 12px Arial';
-    context.setFillStyle('#ffd700');
-    context.setTextAlign('center');
-    context.fillText('⭐ 分享我的战绩 ⭐', w/2, 330);
+    context.fillRect(22, 137, (w - 44) * Math.min(merit / 1000, 1), 31);
     
     context.font = '9px Arial';
+    context.setFillStyle('#888');
+    context.setTextAlign('center');
+    context.fillText('⭐ 赛博木鱼 ⭐', w/2, 185);
+    
+    context.font = '8px Arial';
     context.setFillStyle('#666');
-    context.fillText('赛博木鱼 - 功德无量', w/2, h - 20);
+    context.fillText('wooden fish', w/2, h - 10);
   },
   
   drawComicStyle(context, w, h, merit, keyword, text) {
@@ -710,66 +700,47 @@ Page({
     context.fillRect(0, 0, w, h);
     
     context.setStrokeStyle('#000');
-    context.setLineWidth(3);
-    context.beginPath();
-    context.moveTo(0, 0);
-    context.lineTo(w, 0);
-    context.lineTo(w, h);
-    context.lineTo(0, h);
-    context.closePath();
-    context.stroke();
+    context.setLineWidth(2);
+    context.strokeRect(2, 2, w - 4, h - 4);
     
     context.setFillStyle('#ffcc00');
     context.beginPath();
-    context.arc(w/2, 60, 45, 0, 2 * Math.PI);
+    context.arc(w/2, 40, 35, 0, 2 * Math.PI);
     context.fill();
     context.stroke();
     
-    context.font = 'bold 36px Arial';
+    context.font = 'bold 28px Arial';
     context.setFillStyle('#000');
     context.setTextAlign('center');
     context.setTextBaseline('middle');
-    context.fillText('💰', w/2, 62);
+    context.fillText('💰', w/2, 42);
     
     context.setTextBaseline('alphabetic');
-    context.font = 'bold 18px Arial';
+    context.font = 'bold 14px Arial';
     context.setFillStyle('#ff3366');
-    context.fillText('今日份暴富', 40, 130);
+    context.setTextAlign('left');
+    context.fillText('今日份', 20, 95);
     
-    context.beginPath();
-    context.moveTo(40, 140);
-    context.lineTo(100, 130);
-    context.lineTo(40, 120);
-    context.closePath();
-    context.setFillStyle('#ffcc00');
-    context.fill();
-    context.stroke();
-    
-    context.font = 'bold 48px Arial';
+    context.font = 'bold 36px Arial';
     context.setFillStyle('#333');
     context.setTextAlign('center');
-    context.fillText(merit, w/2, 200);
-    
-    context.font = 'bold 20px Arial';
-    context.setFillStyle('#ff6600');
-    context.fillText(keyword + ' 达成!', w/2, 235);
-    
-    context.setFillStyle('#333');
-    context.font = '12px Arial';
-    context.setTextAlign('left');
-    const lines = text.split('\n');
-    lines.forEach((line, i) => {
-      context.fillText(line, 30, 270 + i * 18);
-    });
+    context.fillText(merit, w/2, 135);
     
     context.font = 'bold 16px Arial';
-    context.setFillStyle('#000');
-    context.setTextAlign('center');
-    context.fillText('POW! 功德圆满!', w/2, h - 50);
+    context.setFillStyle('#ff6600');
+    context.fillText(keyword + ' 达成!', w/2, 160);
     
-    context.setFillStyle('#666');
     context.font = '10px Arial';
-    context.fillText('— 赛博木鱼小程序 —', w/2, h - 25);
+    context.setFillStyle('#666');
+    context.fillText(text, w/2, 190);
+    
+    context.font = 'bold 12px Arial';
+    context.setFillStyle('#000');
+    context.fillText('POW! 功德圆满!', w/2, h - 25);
+    
+    context.font = '9px Arial';
+    context.setFillStyle('#999');
+    context.fillText('— 赛博木鱼 —', w/2, h - 12);
   },
   
   drawMinimalStyle(context, w, h, merit, keyword, text) {
@@ -779,104 +750,97 @@ Page({
     context.setStrokeStyle('#ddd');
     context.setLineWidth(1);
     context.beginPath();
-    context.moveTo(40, 100);
-    context.lineTo(w - 40, 100);
+    context.moveTo(30, 55);
+    context.lineTo(w - 30, 55);
     context.stroke();
     
-    context.font = 'normal 12px Georgia';
+    context.font = 'normal 10px Georgia';
     context.setFillStyle('#999');
     context.setTextAlign('center');
-    context.fillText('wooden fish', w/2, 80);
+    context.fillText('wooden fish', w/2, 45);
     
-    context.font = 'bold 72px Georgia';
+    context.font = 'bold 60px Georgia';
     context.setFillStyle('#1a1a1a');
-    context.fillText(merit, w/2, 180);
+    context.fillText(merit, w/2, 120);
     
-    context.font = '16px Georgia';
+    context.font = '14px Georgia';
     context.setFillStyle('#666');
-    context.fillText(keyword, w/2, 215);
+    context.fillText(keyword, w/2, 145);
     
     context.beginPath();
-    context.moveTo(40, 240);
-    context.lineTo(w - 40, 240);
-    context.stroke();
-    
-    context.font = '11px Georgia';
-    context.setFillStyle('#999');
-    context.setTextAlign('left');
-    const lines = text.split('\n');
-    lines.forEach((line, i) => {
-      context.fillText(line, 40, 270 + i * 18);
-    });
-    
-    context.beginPath();
-    context.moveTo(40, h - 60);
-    context.lineTo(w - 40, h - 60);
+    context.moveTo(30, 165);
+    context.lineTo(w - 30, 165);
     context.stroke();
     
     context.font = '10px Georgia';
+    context.setFillStyle('#999');
+    context.setTextAlign('center');
+    context.fillText(text, w/2, 185);
+    
+    context.beginPath();
+    context.moveTo(30, h - 35);
+    context.lineTo(w - 30, h - 35);
+    context.stroke();
+    
+    context.font = '9px Georgia';
     context.setFillStyle('#ccc');
     context.setTextAlign('center');
-    context.fillText('share from wooden fish', w/2, h - 40);
+    context.fillText('wooden fish', w/2, h - 20);
   },
   
   drawGlitchStyle(context, w, h, merit, keyword, text, date) {
     context.setFillStyle('#0f0f0f');
     context.fillRect(0, 0, w, h);
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 20; i++) {
       const y = Math.random() * h;
-      const offset = (Math.random() - 0.5) * 10;
-      context.setFillStyle(`rgba(${Math.random() > 0.5 ? '255,0,0' : '0,255,255'}, 0.3)`);
+      const offset = (Math.random() - 0.5) * 8;
+      context.setFillStyle(Math.random() > 0.5 ? 'rgba(255,0,64,0.2)' : 'rgba(0,255,255,0.2)');
       context.fillRect(offset, y, w, 2);
     }
     
-    context.font = 'bold 20px Impact';
+    context.font = 'bold 16px Impact';
     context.setTextAlign('center');
     context.setFillStyle('#ff0040');
-    context.fillText('// ERROR //', w/2 + 2, 42);
+    context.fillText('// ERROR //', w/2 + 2, 28);
     context.setFillStyle('#00ffff');
-    context.fillText('// ERROR //', w/2 - 2, 38);
+    context.fillText('// ERROR //', w/2 - 2, 24);
     context.setFillStyle('#fff');
-    context.fillText('// ERROR //', w/2, 40);
+    context.fillText('// ERROR //', w/2, 26);
     
-    context.font = 'bold 48px Impact';
+    context.font = 'bold 52px Impact';
     context.setFillStyle('#ff0040');
-    context.fillText(merit, w/2 + 3, 120);
+    context.fillText(merit, w/2 + 3, 90);
     context.setFillStyle('#00ffff');
-    context.fillText(merit, w/2 - 3, 116);
+    context.fillText(merit, w/2 - 3, 86);
     context.setFillStyle('#fff');
-    context.fillText(merit, w/2, 118);
+    context.fillText(merit, w/2, 88);
     
-    context.font = 'bold 18px Impact';
+    context.font = 'bold 16px Impact';
     context.setFillStyle('#ffff00');
-    context.fillText(keyword, w/2, 155);
+    context.fillText(keyword, w/2, 115);
     
     context.setStrokeStyle('#333');
     context.setLineWidth(1);
     context.setLineDash([3, 3]);
     context.beginPath();
-    context.moveTo(20, 180);
-    context.lineTo(w - 20, 180);
+    context.moveTo(15, 135);
+    context.lineTo(w - 15, 135);
     context.stroke();
     
-    context.font = '12px monospace';
+    context.font = '10px monospace';
     context.setFillStyle('#888');
     context.setTextAlign('left');
-    const lines = text.split('\n');
-    lines.forEach((line, i) => {
-      context.fillStyle = i % 2 === 0 ? '#ff0040' : '#00ffff';
-      context.fillText('> ' + line, 30, 210 + i * 20);
-    });
+    context.fillText('> ' + text, 20, 155);
     
     context.setFillStyle('#ffff00');
-    context.font = 'bold 14px Impact';
+    context.font = 'bold 10px Impact';
     context.setTextAlign('center');
-    context.fillText('[ TRANSMISSION COMPLETE ]', w/2, h - 40);
+    context.fillText('[ TX COMPLETE ]', w/2, h - 25);
     
-    context.font = '9px monospace';
+    context.font = '8px monospace';
     context.setFillStyle('#444');
-    context.fillText(date + ' | GLITCH_MODE_ACTIVE', w/2, h - 20);
+    context.fillText(date, w/2, h - 12);
   },
   
   onShareAppMessage(res) {
